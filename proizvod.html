@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Katalog opreme | DND zaštita na radu</title>
+<meta name="robots" content="noindex">
+<style>html,body{margin:0;background:#FFFFFF}</style>
+</helmet>
+<div style="min-height:100vh;background:#FFFFFF"></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const id = new URLSearchParams(location.search).get('id');
+    location.replace('oprema.html' + (id ? '?proizvod=' + encodeURIComponent(id) : ''));
+  }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

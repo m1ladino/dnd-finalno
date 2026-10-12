@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="touch-hover.js"></script>
+<title>Katalog opreme | DND zaštita na radu Zrenjanin</title>
+<meta name="description" content="Digitalni katalog lične zaštitne opreme, protivpožarne opreme, bezbednosnih znakova i promotivnog programa. Prodaja pravnim licima, na veliko. DND zaštita na radu, Zrenjanin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="preconnect" href="https://unpkg.com" crossorigin="anonymous">
+<style>
+html{background:#FFFFFF;scrollbar-gutter:stable;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{overflow-x:clip}
+img,video{max-width:100%}
+a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<style>
+:root{--c-primary:#FFFFFF;--c-secondary:#4A4D52;--c-secondary-strong:#2F3135;--c-tertiary:#FFC000;--c-tertiary-strong:#E6AC00;--c-tertiary-soft:#FFF5D1;--c-surface:#F5F5F3;--c-line:#E4E4E1;--c-line-strong:#C9CAC6;--c-text:#2F3135;--c-muted:#5C5F64;--c-on-dark:#FFFFFF;--c-on-dark-muted:#D5D6D8}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--c-primary);color:var(--c-text);font-family:Manrope,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:var(--c-secondary-strong)}
+a:hover{color:var(--c-secondary)}
+:focus-visible{outline:2px solid var(--c-secondary-strong);outline-offset:3px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+<script src="./oprema-data.js"></script>
+</helmet>
+
+<div lang="sr-Latn" style="min-height:100vh;background:var(--c-primary)">
+
+<header data-screen-label="Heder" style="position:sticky;top:0;z-index:50;background:var(--c-primary);border-bottom:1px solid var(--c-line)">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,32px);height:76px;display:flex;align-items:center;gap:28px">
+    <a href="index.html" aria-label="DND zaštita na radu, početna" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--c-text);flex:1 1 0;min-width:max-content">
+      <img src="assets/dnd-logo.svg" alt="DND zaštita na radu" width="86" height="56" decoding="async" style="height:56px;width:auto;display:block">
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Glavni meni" style="display:flex;align-items:stretch;height:76px;gap:4px;flex:0 0 auto;justify-content:center">
+        <div style="display:flex;align-items:center">
+          <a href="usluge.html" style="display:flex;align-items:center;height:40px;padding:0 12px;border-radius:8px;font-weight:600;font-size:16px;color:var(--c-text);text-decoration:none;transition:background-color .25s ease,color .25s ease" style-hover="background:var(--c-surface)">Usluge</a>
+        </div>
+        <div data-menu="1" style="display:flex;align-items:center;align-self:center;height:40px;border-radius:8px;background:{{ opremaBg }};transition:background-color .25s ease" style-hover="background:var(--c-surface)">
+          <a href="oprema.html" style="display:flex;align-items:center;height:40px;padding:0 4px 0 12px;border-radius:8px;font-weight:600;font-size:16px;color:var(--c-text);transition:background-color .25s ease,color .25s ease;text-decoration:none">Oprema</a>
+          <button onClick="{{ toggleOprema }}" aria-expanded="{{ opremaOpen }}" aria-label="Prikaži kategorije opreme" style="width:32px;height:40px;padding:0 4px 0 0;border:0;border-radius:8px;background:transparent;color:var(--c-text);display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-caret-down" style="font-size:16px;transform:rotate({{ opremaRot }});transition:transform .25s ease"></i></button>
+          <sc-if value="{{ opremaOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:100%;left:0;right:0;background:var(--c-primary);border-top:1px solid var(--c-line);border-bottom:1px solid var(--c-line);box-shadow:0 20px 40px rgba(47,49,53,0.10)">
+              <div style="max-width:1200px;margin:0 auto;padding:32px clamp(20px,4vw,32px) 36px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px">
+                <sc-for list="{{ equipment }}" as="g" hint-placeholder-count="4">
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <a href="{{ g.href }}" onClick="{{ g.go }}" style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--c-text);text-decoration:none;padding-bottom:12px;border-bottom:1px solid var(--c-line)"><i class="ph {{ g.icon }}" style="font-size:20px"></i>{{ g.name }}</a>
+                    <div style="display:flex;flex-direction:column;gap:4px">
+                      <sc-for list="{{ g.links }}" as="it" hint-placeholder-count="4">
+                        <a href="{{ it.href }}" onClick="{{ it.go }}" style="font-size:16px;color:var(--c-muted);text-decoration:none;line-height:1.5" style-hover="color:var(--c-text);text-decoration:underline">{{ it.name }}</a>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <a href="o-nama.html" style="display:flex;align-items:center;align-self:center;height:40px;padding:0 12px;border-radius:8px;white-space:nowrap;font-weight:600;font-size:16px;color:var(--c-text);text-decoration:none;transition:background-color .25s ease,color .25s ease" style-hover="background:var(--c-surface)">O nama</a>
+        <a href="propisi.html" style="display:flex;align-items:center;align-self:center;height:40px;padding:0 12px;border-radius:8px;white-space:nowrap;font-weight:600;font-size:16px;color:var(--c-text);text-decoration:none;transition:background-color .25s ease,color .25s ease" style-hover="background:var(--c-surface)">Propisi</a>
+        <a href="kontakt.html" style="display:flex;align-items:center;align-self:center;height:40px;padding:0 12px;border-radius:8px;white-space:nowrap;font-weight:600;font-size:16px;color:var(--c-text);text-decoration:none;transition:background-color .25s ease,color .25s ease" style-hover="background:var(--c-surface)">Kontakt</a>
+      </nav>
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1 1 0;min-width:max-content"></div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button onClick="{{ toggleNav }}" aria-expanded="{{ navOpen }}" aria-label="Meni" style="width:44px;height:44px;border:0;border-radius:8px;background:var(--c-secondary);color:var(--c-on-dark);display:flex;align-items:center;justify-content:center"><i class="ph {{ navIcon }}" style="font-size:24px"></i></button>
+      </div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeNav }}" aria-hidden="true" style="position:fixed;top:76px;left:0;right:0;bottom:0;background:rgba(47,49,53,0.4);z-index:59;opacity:{{ navFade }};visibility:{{ navVis }};transition:opacity .25s ease,visibility 0s linear {{ navVisDelay }}"></div>
+    <div style="position:fixed;top:76px;left:0;right:0;max-height:calc(100vh - 156px);max-height:calc(100dvh - 156px);background:var(--c-primary);overflow-y:auto;overscroll-behavior:contain;padding:12px 20px 20px;z-index:60;border-radius:0 0 16px 16px;box-shadow:0 16px 32px rgba(47,49,53,0.18);opacity:{{ navFade }};visibility:{{ navVis }};transform:{{ navTf }};transition:transform .3s cubic-bezier(.2,.7,.2,1),opacity .22s ease,visibility 0s linear {{ navVisDelay }};will-change:transform,opacity">
+      <nav aria-label="Mobilni meni" style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ mobileGroups }}" as="mg" hint-placeholder-count="2">
+          <div style="display:flex;flex-direction:column">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px"><a href="{{ mg.href }}" onClick="{{ closeNav }}" style="flex:1;min-width:0;display:flex;align-items:center;min-height:60px;font-weight:800;font-size:26px;letter-spacing:-0.02em;color:var(--c-text);text-decoration:none">{{ mg.label }}</a><button onClick="{{ mg.toggle }}" aria-expanded="{{ mg.open }}" aria-label="Prikaži listu: {{ mg.label }}" style="width:44px;height:44px;border:0;border-radius:50%;background:var(--c-surface);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;color:var(--c-text)"><i class="ph-bold ph-caret-down" style="font-size:16px;transform:rotate({{ mg.rot }});transition:transform .3s cubic-bezier(.2,.7,.2,1)"></i></button></div>
+            <div style="display:grid;grid-template-rows:{{ mg.rows }};transition:grid-template-rows .3s cubic-bezier(.2,.7,.2,1)"><div style="overflow:hidden;min-height:0">
+              <div style="display:flex;flex-direction:column;margin:4px 0 12px;padding:6px 0;border-radius:14px;background:var(--c-surface);opacity:{{ mg.op }};visibility:{{ mg.vis }};transition:opacity .22s ease,visibility 0s linear {{ mg.visDelay }}">
+                <sc-for list="{{ mg.items }}" as="mi" hint-placeholder-count="4">
+                  <a href="{{ mi.href }}" onClick="{{ mi.go }}" style="display:flex;align-items:center;min-height:46px;padding:0 16px;color:var(--c-text);text-decoration:none;font-size:16px;font-weight:600;line-height:1.3">{{ mi.name }}</a>
+                </sc-for>
+              </div>
+            </div></div>
+          </div>
+        </sc-for>
+        <a href="o-nama.html" onClick="{{ closeNav }}" style="display:flex;align-items:center;min-height:60px;font-weight:800;font-size:26px;letter-spacing:-0.02em;color:var(--c-text);text-decoration:none">O nama</a>
+        <a href="propisi.html" onClick="{{ closeNav }}" style="display:flex;align-items:center;min-height:60px;font-weight:800;font-size:26px;letter-spacing:-0.02em;color:var(--c-text);text-decoration:none">Propisi</a>
+        <a href="kontakt.html" onClick="{{ closeNav }}" style="display:flex;align-items:center;min-height:60px;font-weight:800;font-size:26px;letter-spacing:-0.02em;color:var(--c-text);text-decoration:none">Kontakt</a>
+      </nav>
+    </div>
+  </sc-if>
+</header>
+
+<main id="top" style="padding:clamp(20px,3vw,32px) 0 clamp(48px,6vw,80px)">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,32px);display:flex;flex-direction:column">
+
+    <nav aria-label="Putanja" style="display:{{ crumbDisplay }};align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--c-muted);margin-bottom:clamp(20px,2.4vw,28px)">
+      <a href="index.html" style="color:var(--c-muted);text-decoration:none" style-hover="color:var(--c-text)">Početna</a>
+      <i class="ph ph-caret-right" style="font-size:14px"></i>
+      <span style="color:var(--c-text);font-weight:700">Oprema</span>
+    </nav>
+
+    <section data-screen-label="01 Naslov" style="display:grid;grid-template-columns:{{ L.heroCols }};align-items:end;gap:24px 56px;padding-bottom:clamp(28px,4vw,48px);border-bottom:1px solid var(--c-line)">
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <span style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-muted)"><span style="width:28px;height:28px;border-radius:8px;background:#2F3135;flex:none;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-book-open-text" style="font-size:16px;color:#FFC000"></i></span>Digitalni katalog</span>
+        <h1 style="margin:0;font-weight:800;font-size:clamp(36px,5vw,64px);line-height:1.02;letter-spacing:-0.035em;text-wrap:balance">Katalog opreme</h1>
+        <p style="margin:0;max-width:56ch;font-size:clamp(16px,1.5vw,18px);line-height:1.6;color:var(--c-muted);text-wrap:pretty">Oprema za firme, birana po riziku radnog mesta. Izaberite šta Vam treba i zatražite ponudu za Vašu količinu.</p>
+      </div>
+      <dl style="margin:0;display:grid;grid-template-columns:{{ L.factCols }};gap:0;border-top:{{ L.factBorder }}">
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--c-line)">
+          <dt style="display:flex;flex:none"><i class="ph-duotone ph-buildings" style="font-size:24px;color:#2F3135"></i></dt>
+          <dd style="flex:1 1 auto;min-width:0;margin:0;font-size:15px;font-weight:700;line-height:1.35">Samo za pravna lica</dd>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--c-line)">
+          <dt style="display:flex;flex:none"><i class="ph-duotone ph-package" style="font-size:24px;color:#2F3135"></i></dt>
+          <dd style="flex:1 1 auto;min-width:0;margin:0;font-size:15px;font-weight:700;line-height:1.35">Prodaja na veliko</dd>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--c-line)">
+          <dt style="display:flex;flex:none"><i class="ph-duotone ph-file-text" style="font-size:24px;color:#2F3135"></i></dt>
+          <dd style="flex:1 1 auto;min-width:0;margin:0;font-size:15px;font-weight:700;line-height:1.35">Cena i rok u ponudi</dd>
+        </div>
+      </dl>
+    </section>
+
+    <sc-if value="{{ showChips }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Poglavlja kataloga" style="position:sticky;top:76px;z-index:40;margin:0 calc(-1 * clamp(20px,4vw,32px));background:var(--c-primary);border-bottom:1px solid var(--c-line)">
+        <div ref="{{ chipRef }}" style="display:flex;gap:8px;overflow-x:auto;padding:10px clamp(20px,4vw,32px);scrollbar-width:none;-webkit-overflow-scrolling:touch">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+            <a href="{{ c.href }}" onClick="{{ c.go }}" data-chip="{{ c.id }}" aria-current="{{ c.current }}" style="flex:none;display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;background:{{ c.bg }};color:{{ c.color }};font-size:14px;font-weight:700;white-space:nowrap;text-decoration:none;transition:background-color .25s ease,color .25s ease"><span style="font-size:12px;font-weight:800;opacity:.7">{{ c.num }}</span>{{ c.label }}</a>
+          </sc-for>
+        </div>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ showDd }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Filter kataloga" style="position:sticky;top:76px;z-index:40;margin:0 -20px;background:var(--c-primary);border-bottom:1px solid var(--c-line)">
+        <div style="display:flex;gap:8px;padding:8px 20px">
+          <button type="button" onClick="{{ dd.toggle }}" aria-expanded="{{ dd.expanded }}" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:12px;height:44px;padding:0 14px 0 16px;border:1.5px solid {{ dd.border }};border-radius:12px;background:#FFFFFF;font:inherit;color:#2F3135;cursor:pointer;text-align:left">
+            <span style="display:flex;align-items:baseline;gap:8px;min-width:0"><span style="flex:none;font-size:12px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--c-muted)">Prikaz</span><span style="font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ dd.label }}</span></span>
+            <i class="ph-bold ph-caret-down" style="flex:none;font-size:16px;transform:rotate({{ dd.rot }});transition:transform .25s ease"></i>
+          </button>
+          <sc-if value="{{ dd.filtered }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ dd.clear }}" aria-label="Prikaži sve kategorije" style="flex:none;width:44px;height:44px;border:0;border-radius:12px;background:var(--c-surface);color:#2F3135;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph-bold ph-x" style="font-size:16px"></i></button>
+          </sc-if>
+        </div>
+        <sc-if value="{{ dd.open }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ dd.close }}" aria-hidden="true" style="position:fixed;inset:0;top:137px;background:rgba(47,49,53,0.4);z-index:-1"></div>
+          <div role="listbox" aria-label="Kategorije i podkategorije" style="position:absolute;top:100%;left:0;right:0;max-height:calc(100dvh - 170px);overflow-y:auto;overscroll-behavior:contain;background:#FFFFFF;border-bottom:1px solid var(--c-line);box-shadow:0 18px 32px -20px rgba(47,49,53,.5);padding:8px 0 12px">
+            <button type="button" role="option" aria-selected="{{ dd.all.sel }}" onClick="{{ dd.all.pick }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:0 20px;border:0;border-left:3px solid {{ dd.all.bar }};background:{{ dd.all.bg }};font:inherit;color:#2F3135;cursor:pointer;text-align:left">
+              <span style="font-size:16px;font-weight:800">Svi proizvodi</span>
+              <i class="ph-bold ph-check" style="font-size:16px;opacity:{{ dd.all.chk }}"></i>
+            </button>
+            <sc-for list="{{ dd.cats }}" as="o" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:10px;padding:14px 20px 16px;border-top:1px solid var(--c-line)">
+                <button type="button" role="option" aria-selected="{{ o.sel }}" onClick="{{ o.pick }}" style="display:flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:transparent;font:inherit;color:#2F3135;cursor:pointer;text-align:left">
+                  <span style="flex:none;width:40px;height:40px;border-radius:10px;background:{{ o.tile }};display:flex;align-items:center;justify-content:center"><i class="ph-duotone {{ o.icon }}" style="font-size:22px;color:#2F3135"></i></span>
+                  <span style="flex:1;min-width:0;font-size:16px;font-weight:800;line-height:1.3">{{ o.name }}</span>
+                  <i class="ph-bold ph-check" style="flex:none;font-size:16px;opacity:{{ o.chk }}"></i>
+                </button>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ o.subs }}" as="u" hint-placeholder-count="3">
+                    <button type="button" role="option" aria-selected="{{ u.sel }}" onClick="{{ u.pick }}" style="min-height:40px;padding:8px 14px;border:1.5px solid {{ u.bd }};border-radius:999px;background:{{ u.pbg }};color:{{ u.fg }};font:inherit;font-size:14px;font-weight:700;line-height:1.25;cursor:pointer;text-align:left">{{ u.name }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </nav>
+    </sc-if>
+
+    <section data-screen-label="02 Katalog" style="display:grid;grid-template-columns:{{ L.cols }};gap:56px;align-items:start;padding-top:clamp(32px,4.5vw,56px)">
+
+      <sc-if value="{{ showToc }}" hint-placeholder-val="{{ true }}">
+        <aside aria-label="Sadržaj kataloga" style="position:sticky;top:100px;max-height:calc(100vh - 120px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;display:flex;flex-direction:column;gap:24px;padding-bottom:8px">
+          <span style="font-size:13px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-muted)">Sadržaj</span>
+          <nav style="display:flex;flex-direction:column;gap:4px;margin-top:-12px">
+            <sc-for list="{{ toc }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column">
+                <a href="{{ t.href }}" onClick="{{ t.go }}" aria-current="{{ t.current }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);align-items:baseline;gap:4px;padding:10px 10px 10px 8px;border-radius:10px;background:{{ t.bg }};color:var(--c-text);text-decoration:none;transition:background-color .25s ease" style-hover="background:var(--c-surface)">
+                  <span style="font-size:13px;font-weight:800;color:var(--c-muted);font-variant-numeric:tabular-nums">{{ t.num }}</span>
+                  <span style="font-size:15px;font-weight:{{ t.weight }};line-height:1.35">{{ t.name }}</span>
+                </a>
+                <sc-if value="{{ t.showSubs }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;margin:6px 0 10px 40px;border-left:1px solid var(--c-line)">
+                    <sc-for list="{{ t.subs }}" as="u" hint-placeholder-count="3">
+                      <a href="{{ u.href }}" onClick="{{ u.go }}" style="position:relative;display:flex;align-items:center;min-height:34px;padding:4px 0 4px 14px;margin-left:-1px;border-left:2px solid {{ u.bar }};font-size:14px;font-weight:{{ u.weight }};line-height:1.35;color:{{ u.color }};text-decoration:none;transition:color .2s ease,border-color .2s ease" style-hover="color:var(--c-text)">{{ u.name }}</a>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </nav>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:14px;background:var(--c-surface)">
+            <p style="margin:0;font-size:15px;font-weight:800;line-height:1.35">Ne vidite šta Vam treba?</p>
+            <p style="margin:0;font-size:14px;line-height:1.55;color:var(--c-muted);text-wrap:pretty">Nabavljamo i opremu koja nije u katalogu. Javite se komercijalisti.</p>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:6px;padding-top:14px;border-top:1px solid #E4E4E1">
+              <div style="display:flex;align-items:center;gap:12px;min-width:0">
+                <img src="assets/tim-milos-smiljanski.webp" alt="" width="44" height="44" loading="lazy" style="width:44px;height:44px;flex:none;border-radius:50%;object-fit:cover;object-position:50% 20%;background:#E4E4E1;box-shadow:0 0 0 2px #F5F5F3,0 0 0 3.5px rgba(255,192,0,.7)">
+                <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <span style="font-size:11px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#5C5F64">Komercijalista</span>
+                  <span style="font-size:15px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Miloš Smiljanski</span>
+                </span>
+              </div>
+              <a href="tel:+381615686300" aria-label="Pozovite Miloš Smiljanski, 061 568 6300" style="display:flex;align-items:center;justify-content:space-between;gap:10px;height:48px;padding:0 5px 0 18px;border-radius:999px;background:#FFC000;color:#2F3135;font-size:15px;font-weight:800;letter-spacing:-0.01em;white-space:nowrap;text-decoration:none;box-shadow:0 10px 22px -12px rgba(230,172,0,.8);transition:background .2s,transform .25s cubic-bezier(.2,.7,.2,1)" style-hover="background:#FFCA2B;color:#2F3135;transform:translateY(-1px)" style-active="transform:scale(.98)">061 568 6300<span style="width:38px;height:38px;flex:none;border-radius:50%;background:#2F3135;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-phone" style="font-size:15px;color:#FFC000"></i></span></a>
+            </div>
+          </div>
+        </aside>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column;gap:clamp(64px,8vw,104px);min-width:0">
+        <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="2">
+          <section id="{{ ch.id }}" data-chapter="{{ ch.id }}" aria-labelledby="{{ ch.hid }}" style="display:flex;flex-direction:column;gap:clamp(36px,4vw,56px);scroll-margin-top:{{ smt }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;border-top:2px solid #2F3135">
+                <span style="font-size:14px;font-weight:800;letter-spacing:0.08em;font-variant-numeric:tabular-nums">{{ ch.num }}</span>
+                <span style="display:{{ cntDisp }};font-size:14px;font-weight:600;color:var(--c-muted)">{{ ch.countLabel }}</span>
+              </div>
+              <h2 id="{{ ch.hid }}" style="margin:0;font-weight:800;font-size:clamp(30px,3.6vw,46px);line-height:1.05;letter-spacing:-0.03em;text-wrap:balance">{{ ch.name }}</h2>
+              <p style="margin:0;max-width:60ch;font-size:16px;line-height:1.6;color:var(--c-muted);text-wrap:pretty">{{ ch.text }}</p>
+            </div>
+
+            <sc-for list="{{ ch.subs }}" as="sb" hint-placeholder-count="1">
+              <div id="{{ sb.id }}" data-sub="{{ sb.id }}" data-cat="{{ ch.id }}" style="display:flex;flex-direction:column;gap:24px;scroll-margin-top:{{ smt }}">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--c-line)">
+                  <h3 style="margin:0;font-size:clamp(19px,1.8vw,22px);font-weight:800;line-height:1.25;letter-spacing:-0.015em">{{ sb.name }}</h3>
+                  <span style="display:{{ cntDisp }};flex:none;font-size:14px;font-weight:600;color:var(--c-muted)">{{ sb.countLabel }}</span>
+                </div>
+                <sc-if value="{{ sb.hasBanner }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:grid;grid-template-columns:{{ bannerCols }};gap:clamp(18px,2.6vw,36px);align-items:center">
+                    <img src="{{ sb.img }}" alt="{{ sb.name }}" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:5 / 3;object-fit:cover;border-radius:12px">
+                    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+                      <span style="font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-muted)">Grupe proizvoda</span>
+                      <div role="group" aria-label="{{ sb.name }}, grupe proizvoda" style="display:flex;flex-wrap:wrap;gap:8px">
+                        <sc-for list="{{ sb.groups }}" as="g" hint-placeholder-count="5">
+                          <button type="button" onClick="{{ g.pick }}" aria-pressed="{{ g.pressed }}" style="min-height:44px;padding:0 16px;border:1.5px solid {{ g.bd }};border-radius:999px;background:{{ g.bg }};color:{{ g.fg }};font:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:border-color .2s ease,background-color .2s ease" style-hover="border-color:#2F3135">{{ g.name }}</button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ sb.noItems }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:0;padding:20px 24px;border-radius:12px;background:var(--c-surface);font-size:15px;color:var(--c-muted)">{{ sb.emptyMsg }}</p>
+                </sc-if>
+                <div style="display:grid;grid-template-columns:{{ L.grid }};gap:{{ L.gap }}">
+                  <sc-for list="{{ sb.items }}" as="p" hint-placeholder-count="4">
+                    <article style="display:flex;flex-direction:column;gap:12px;min-width:0">
+                      <a href="{{ p.href }}" onClick="{{ p.open }}" aria-label="{{ p.label }}, detalji" style="display:flex;flex-direction:column;gap:14px;color:var(--c-text);text-decoration:none">
+                        <span style="position:relative;display:block;aspect-ratio:1 / 1;border:1px solid var(--c-line);border-radius:12px;background:#FFFFFF;overflow:hidden;transition:border-color .25s ease,box-shadow .25s ease" style-hover="border-color:#C9CAC6;box-shadow:0 12px 28px -18px rgba(47,49,53,.45)">
+                          <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ false }}">
+                            {{ p.img }}
+                          </sc-if>
+                          <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ true }}">
+                            <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--c-surface)"><i class="ph-duotone {{ p.icon }}" style="font-size:44px;color:#9A9DA1"></i></span>
+                          </sc-if>
+                        </span>
+                        <span style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                          <span style="display:{{ p.brandDisp }};font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-muted)">{{ p.brand }}</span>
+                          <span style="font-size:{{ L.nameSize }};font-weight:800;line-height:1.25;letter-spacing:-0.01em;text-wrap:pretty">{{ p.name }}</span>
+                          <span style="font-size:14px;line-height:1.55;color:var(--c-muted);display:-webkit-box;-webkit-line-clamp:{{ L.clamp }};-webkit-box-orient:vertical;overflow:hidden">{{ p.desc }}</span>
+                        </span>
+                        <sc-if value="{{ p.hasColors }}" hint-placeholder-val="{{ false }}">
+                          <span aria-label="{{ p.colorsLabel }}" style="display:flex;align-items:center;gap:6px">
+                            <sc-for list="{{ p.dots }}" as="d" hint-placeholder-count="2">
+                              <span title="{{ d.name }}" style="width:14px;height:14px;border-radius:50%;background:{{ d.hex }};box-shadow:inset 0 0 0 1px rgba(47,49,53,.18)"></span>
+                            </sc-for>
+                            <span style="display:{{ p.moreDisp }};font-size:12px;font-weight:700;color:var(--c-muted)">{{ p.more }}</span>
+                          </span>
+                        </sc-if>
+                      </a>
+                      <button onClick="{{ p.toggle }}" aria-pressed="{{ p.pressed }}" aria-label="{{ p.addAria }}" style="align-self:flex-start;display:flex;align-items:center;gap:8px;height:38px;margin-top:auto;padding:0 14px 0 5px;border:1.5px solid {{ p.addBorder }};border-radius:999px;background:#FFFFFF;font:inherit;font-size:14px;font-weight:800;color:#2F3135;white-space:nowrap;cursor:pointer;transition:border-color .2s ease" style-hover="border-color:#2F3135"><span style="width:26px;height:26px;flex:none;border-radius:50%;background:{{ p.addDot }};display:flex;align-items:center;justify-content:center;transition:background-color .2s ease"><i class="ph-bold {{ p.addIcon }}" style="font-size:13px;color:#2F3135"></i></span>{{ p.addLabel }}</button>
+                    </article>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ ch.hasPdf }}" hint-placeholder-val="{{ false }}">
+              <a data-sub="{{ ch.id }}" data-cat="{{ ch.id }}" href="{{ ch.pdf }}" target="_blank" rel="noopener" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;padding:24px;border:1px solid var(--c-line);border-radius:16px;background:var(--c-surface);color:var(--c-text);text-decoration:none;transition:border-color .25s ease" style-hover="border-color:#2F3135">
+                <span style="display:flex;align-items:center;gap:16px;min-width:0">
+                  <span style="width:52px;height:52px;flex:none;border-radius:12px;background:#FFC000;display:flex;align-items:center;justify-content:center"><i class="ph-duotone ph-file-pdf" style="font-size:28px;color:#2F3135"></i></span>
+                  <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font-size:18px;font-weight:800;line-height:1.3">Katalog promotivnog programa</span>
+                    <span style="font-size:14px;line-height:1.5;color:var(--c-muted)">Kompletna ponuda u PDF formatu, otvara se u novom prozoru.</span>
+                  </span>
+                </span>
+                <span style="display:flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;background:#2F3135;color:#FFFFFF;font-size:15px;font-weight:700">Otvori katalog <i class="ph-bold ph-arrow-up-right" style="font-size:14px"></i></span>
+              </a>
+            </sc-if>
+            <sc-if value="{{ ch.empty }}" hint-placeholder-val="{{ false }}">
+              <div data-sub="{{ ch.id }}" data-cat="{{ ch.id }}" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;padding:24px;border-radius:16px;background:var(--c-surface)">
+                <p style="margin:0;max-width:52ch;font-size:16px;line-height:1.55;color:var(--c-muted);text-wrap:pretty">Proizvode iz ove kategorije upravo dodajemo u katalog. Do tada nas pozovite ili pošaljite upit.</p>
+                <button onClick="{{ openFormOprema }}" style="height:44px;padding:0 18px;border:0;border-radius:999px;background:#2F3135;color:#FFFFFF;font:inherit;font-size:15px;font-weight:700;cursor:pointer">Pošaljite upit</button>
+              </div>
+            </sc-if>
+          </section>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-screen-label="03 Upit za opremu" style="display:{{ upitDisp }};margin-top:clamp(56px,7vw,96px);background:var(--c-secondary-strong);color:var(--c-on-dark);border-radius:20px;padding:clamp(24px,3.5vw,40px);flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px">
+      <div style="display:flex;flex-direction:column;gap:8px;max-width:560px;flex:1 1 320px">
+        <h2 style="margin:0;font-size:clamp(22px,2.4vw,30px);font-weight:800;line-height:1.2;letter-spacing:-0.02em;text-wrap:balance">Opremate celu firmu?</h2>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--c-on-dark-muted);text-wrap:pretty">Pošaljite spisak ili broj zaposlenih, a mi šaljemo ponudu sa količinskim popustom i rokom isporuke.</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <button onClick="{{ openFormOprema }}" style="height:56px;padding:0 6px 0 24px;border:0;border-radius:999px;background:var(--c-tertiary);color:var(--c-secondary-strong);font:inherit;font-weight:800;font-size:16px;cursor:pointer;white-space:nowrap;gap:14px;display:flex;align-items:center;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .2s;box-shadow:0 10px 24px -10px rgba(230,172,0,.7)" style-hover="background:var(--c-tertiary-strong);transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(230,172,0,.85)" style-active="transform:translateY(0) scale(.98)">Pošaljite upit<span style="width:44px;height:44px;flex:none;border-radius:50%;background:#2F3135;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-up-right" style="font-size:18px;color:#FFC000"></i></span></button>
+        <a href="tel:+381615686300" style="height:56px;padding:0 6px 0 24px;border-radius:999px;border:1.5px solid var(--c-on-dark);color:var(--c-on-dark);display:flex;align-items:center;gap:14px;font-weight:800;font-size:16px;text-decoration:none;white-space:nowrap;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .2s" style-hover="background:rgba(255,255,255,0.08);color:var(--c-on-dark);transform:translateY(-2px)" style-active="transform:translateY(0) scale(.98)">{{ callLabel }}<span style="width:44px;height:44px;flex:none;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-phone" style="font-size:18px;color:#2F3135"></i></span></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<section id="kontakt" data-screen-label="08 Poziv na akciju" style="padding:clamp(48px,6vw,88px) 0;background:var(--c-secondary-strong);color:var(--c-on-dark);scroll-margin-top:76px">
+    <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));align-items:center;gap:40px clamp(48px,7vw,104px)">
+      <div style="display:flex;flex-direction:column;gap:24px;max-width:520px">
+        <h2 style="margin:0;font-weight:800;font-size:clamp(32px,4vw,52px);line-height:1.04;letter-spacing:-0.035em;text-wrap:balance">Niste sigurni šta vaša firma mora da ima?</h2>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#D5D6D8;text-wrap:pretty">Pozovite osobu zaduženu za ono što vam treba ili pošaljite upit. Konsultacija je besplatna.</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;margin-top:4px">
+          <button onClick="{{ openForm }}" style="display:flex;align-items:center;gap:14px;height:56px;padding:0 6px 0 24px;border:0;border-radius:999px;background:#FFC000;color:#2F3135;font:inherit;font-weight:800;font-size:16px;letter-spacing:-0.01em;cursor:pointer;white-space:nowrap;box-shadow:0 10px 24px -10px rgba(230,172,0,.7);transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .2s" style-hover="background:#FFCA2B;transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(230,172,0,.85)" style-active="transform:translateY(0) scale(.98)">Pošaljite upit<span style="width:44px;height:44px;flex:none;border-radius:50%;background:#2F3135;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-up-right" style="font-size:18px;color:#FFC000"></i></span></button>
+          <a href="kontakt.html" style="display:flex;align-items:center;min-height:44px;font-weight:700;font-size:16px;color:#FFFFFF;text-decoration:none" style-hover="color:#FFC000"><span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-decoration-thickness:1.5px;text-underline-offset:5px">Svi kontakti i lokacija</span></a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;min-width:0">
+        <div style="border-top:1px solid rgba(255,255,255,.14)"></div>
+          <a href="tel:+381637769518" aria-label="Pozovite Nenad Ćulafić, 063 776 9518" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:clamp(14px,2vw,22px);padding:clamp(18px,2.4vw,26px) 0;border-bottom:1px solid rgba(255,255,255,.14);color:#FFFFFF;text-decoration:none;transition:padding .3s cubic-bezier(.2,.7,.2,1)" style-hover="padding-left:8px;color:#FFFFFF">
+            <img src="assets/tim-nenad-culafic-v3.webp" alt="" width="56" height="56" loading="lazy" style="width:clamp(48px,5vw,60px);height:clamp(48px,5vw,60px);border-radius:50%;object-fit:cover;object-position:50% 20%;background:#4A4D52;box-shadow:0 0 0 2px #2F3135,0 0 0 3.5px rgba(255,192,0,.55)">
+            <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font-size:12px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#FFC000">Usluge i dokumentacija</span>
+              <span style="display:{{ ctaNumDisp }};font-weight:800;font-size:clamp(22px,2.6vw,30px);line-height:1.1;letter-spacing:-0.025em;white-space:nowrap">063 776 9518</span>
+              <span style="font-size:15px;color:#D5D6D8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Nenad Ćulafić<span style="display:{{ ctaRoleDisp }}"> · direktor</span></span>
+            </span>
+            <span style="width:52px;height:52px;flex:none;border-radius:50%;background:linear-gradient(180deg,#FFD033 0%,#FFC000 100%);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 0 5px rgba(255,192,0,.12)"><i class="ph-bold ph-phone" style="font-size:20px;color:#2F3135"></i></span>
+          </a>
+          <a href="tel:+381615686300" aria-label="Pozovite Miloš Smiljanski, 061 568 6300" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:clamp(14px,2vw,22px);padding:clamp(18px,2.4vw,26px) 0;border-bottom:1px solid rgba(255,255,255,.14);color:#FFFFFF;text-decoration:none;transition:padding .3s cubic-bezier(.2,.7,.2,1)" style-hover="padding-left:8px;color:#FFFFFF">
+            <img src="assets/tim-milos-smiljanski.webp" alt="" width="56" height="56" loading="lazy" style="width:clamp(48px,5vw,60px);height:clamp(48px,5vw,60px);border-radius:50%;object-fit:cover;object-position:50% 20%;background:#4A4D52;box-shadow:0 0 0 2px #2F3135,0 0 0 3.5px rgba(255,192,0,.55)">
+            <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font-size:12px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#FFC000">Oprema</span>
+              <span style="display:{{ ctaNumDisp }};font-weight:800;font-size:clamp(22px,2.6vw,30px);line-height:1.1;letter-spacing:-0.025em;white-space:nowrap">061 568 6300</span>
+              <span style="font-size:15px;color:#D5D6D8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Miloš Smiljanski<span style="display:{{ ctaRoleDisp }}"> · komercijalista</span></span>
+            </span>
+            <span style="width:52px;height:52px;flex:none;border-radius:50%;background:linear-gradient(180deg,#FFD033 0%,#FFC000 100%);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 0 5px rgba(255,192,0,.12)"><i class="ph-bold ph-phone" style="font-size:20px;color:#2F3135"></i></span>
+          </a>
+        <span style="display:{{ ctaInfoDesk }};align-items:center;gap:8px;padding-top:16px;font-size:14px;color:#D5D6D8"><i class="ph-bold ph-clock" style="font-size:16px;color:#FFC000"></i>Radnim danima 7:30–15:30 · Carice Milice 21, Zrenjanin</span>
+        <div style="display:{{ ctaInfoMob }};flex-direction:column;gap:10px;padding-top:18px;font-size:15px;line-height:1.4;color:#D5D6D8">
+          <span style="display:flex;align-items:center;gap:10px"><i class="ph-bold ph-clock" style="font-size:18px;color:#FFC000;flex:none"></i>Radnim danima 7:30–15:30</span>
+          <a href="https://maps.app.goo.gl/eFseXsvS2ZFqJdWq7" target="_blank" rel="noopener" style="align-self:flex-start;display:flex;align-items:center;gap:10px;min-height:44px;margin:-12px 0;color:#FFFFFF;text-decoration:none" style-hover="color:#FFC000"><i class="ph-bold ph-map-pin" style="font-size:18px;color:#FFC000;flex:none"></i><span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-decoration-thickness:1.5px;text-underline-offset:4px">Carice Milice 21, Zrenjanin</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<footer data-screen-label="11 Futer" style="background:#F5F5F3;color:#2F3135;padding:0">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,32px);display:flex;flex-direction:column">
+    <div style="order:2;display:grid;grid-template-columns:{{ footRowCols }};justify-items:center;text-align:center;align-items:center;gap:{{ footRowGap }};padding:20px 0 12px;border-top:1px solid #E4E4E1;font-size:15px;color:#5C5F64">
+      <span style="justify-self:{{ footJsL }}">© 2026 DND zaštita na radu d.o.o.</span>
+      <button onClick="{{ reopenCookie }}" style="display:{{ footCookieMob }};border:0;background:transparent;padding:4px 0;font:inherit;font-size:14px;color:#5C5F64;text-decoration:underline;cursor:pointer">Podešavanja kolačića</button>
+      <nav aria-label="Pravne informacije" style="display:{{ footNavDisp }};gap:24px;justify-self:center;white-space:nowrap">
+        <span style="color:#5C5F64">Sva prava zadržana</span>
+        <button onClick="{{ reopenCookie }}" style="border:0;background:transparent;padding:0;font:inherit;color:#5C5F64;cursor:pointer;transition:color .2s ease" style-hover="color:#2F3135">Podešavanja kolačića</button>
+      </nav>
+      <span style="display:{{ footNavDisp }};justify-self:{{ footJsR }}">Zrenjanin · od 2010.</span>
+    </div>
+    <div aria-hidden="true" style="height:clamp(110px,17vw,220px);overflow:hidden;display:flex;justify-content:center;user-select:none"><img src="assets/dnd-logo.svg" alt="" width="552" height="360" loading="lazy" decoding="async" style="display:block;flex:none;align-self:flex-start;width:clamp(200px,32vw,400px);height:auto;margin-top:clamp(16px,2vw,28px);-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 22%,rgba(0,0,0,.9) 30%,rgba(0,0,0,.7) 38%,rgba(0,0,0,.47) 46%,rgba(0,0,0,.27) 54%,rgba(0,0,0,.12) 61%,rgba(0,0,0,.04) 67%,rgba(0,0,0,0) 72%);mask-image:linear-gradient(180deg,#000 0%,#000 22%,rgba(0,0,0,.9) 30%,rgba(0,0,0,.7) 38%,rgba(0,0,0,.47) 46%,rgba(0,0,0,.27) 54%,rgba(0,0,0,.12) 61%,rgba(0,0,0,.04) 67%,rgba(0,0,0,0) 72%)"></div>
+  </div>
+</footer>
+
+<div onClick="{{ closeP }}" aria-hidden="true" style="position:fixed;inset:0;z-index:90;background:{{ P.dim }};opacity:{{ P.fade }};visibility:{{ P.vis }};transition:opacity .3s ease,visibility 0s linear {{ P.visDelay }}"></div>
+<aside role="dialog" aria-modal="true" aria-label="{{ pv.label }}" aria-hidden="{{ P.hidden }}" style="position:fixed;z-index:91;top:{{ P.top }};right:0;bottom:0;left:{{ P.left }};width:{{ P.width }};background:#FFFFFF;border-radius:{{ P.radius }};display:flex;flex-direction:column;box-shadow:-24px 0 60px -20px rgba(32,33,36,0.35);transform:{{ P.tf }};visibility:{{ P.vis }};transition:transform .38s cubic-bezier(.2,.7,.2,1),visibility 0s linear {{ P.visDelay }};will-change:transform">
+  <div style="flex:none;display:flex;align-items:center;gap:12px;height:68px;padding:0 16px 0 24px;border-bottom:1px solid var(--c-line)">
+    <span style="flex:1;min-width:0;font-size:14px;font-weight:600;color:var(--c-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pv.crumb }}</span>
+    <div style="display:flex;gap:6px;flex:none">
+      <button onClick="{{ prevP }}" aria-label="Prethodni proizvod" style="width:40px;height:40px;border:0;border-radius:50%;background:var(--c-surface);color:var(--c-text);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .2s ease" style-hover="background:#ECECE9"><i class="ph-bold ph-caret-left" style="font-size:16px"></i></button>
+      <button onClick="{{ nextP }}" aria-label="Sledeći proizvod" style="width:40px;height:40px;border:0;border-radius:50%;background:var(--c-surface);color:var(--c-text);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .2s ease" style-hover="background:#ECECE9"><i class="ph-bold ph-caret-right" style="font-size:16px"></i></button>
+      <button onClick="{{ closeP }}" aria-label="Zatvori" style="width:40px;height:40px;margin-left:6px;border:0;border-radius:50%;background:#2F3135;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph-bold ph-x" style="font-size:16px"></i></button>
+    </div>
+  </div>
+  <div ref="{{ pRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:24px 24px 32px;display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="position:relative;aspect-ratio:{{ P.ratio }};border:1px solid var(--c-line);border-radius:14px;background:#FFFFFF;overflow:hidden">
+        <sc-if value="{{ pv.hasImg }}" hint-placeholder-val="{{ false }}">
+          {{ pv.img }}
+        </sc-if>
+        <sc-if value="{{ pv.noImg }}" hint-placeholder-val="{{ true }}">
+          <span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--c-surface)"><i class="ph-duotone {{ pv.icon }}" style="font-size:64px;color:#9A9DA1"></i><span style="font-size:14px;font-weight:600;color:var(--c-muted);white-space:nowrap">Fotografija u pripremi</span></span>
+        </sc-if>
+      </div>
+      <sc-if value="{{ pv.hasThumbs }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+          <sc-for list="{{ pv.thumbs }}" as="th" hint-placeholder-count="3">
+            <button onClick="{{ th.pick }}" aria-label="Fotografija {{ th.n }}" aria-pressed="{{ th.on }}" style="flex:none;width:68px;height:68px;padding:0;border:2px solid {{ th.border }};border-radius:10px;background:#FFFFFF;overflow:hidden;cursor:pointer;transition:border-color .2s ease">{{ th.src }}</button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span style="display:{{ pv.brandDisp }};font-size:13px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-muted)">{{ pv.brand }}</span>
+      <h2 style="margin:0;font-size:clamp(26px,3vw,32px);font-weight:800;line-height:1.12;letter-spacing:-0.025em;text-wrap:balance">{{ pv.name }}</h2>
+      <p style="margin:4px 0 0;font-size:16px;line-height:1.7;color:var(--c-text);text-wrap:pretty">{{ pv.desc }}</p>
+    </div>
+    <sc-if value="{{ pv.hasColors }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:12px;padding-top:20px;border-top:1px solid var(--c-line)">
+        <span style="font-size:13px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-muted)">Boje</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ pv.colors }}" as="c" hint-placeholder-count="2">
+            <button type="button" onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="display:flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 8px;border-radius:999px;border:{{ c.bd }};background:#FFFFFF;color:#2F3135;font:inherit;font-size:14px;font-weight:600;cursor:{{ c.cur }};transition:border-color .2s,box-shadow .2s" style-hover="border-color:#2F3135"><span style="width:20px;height:20px;border-radius:50%;background:{{ c.hex }};box-shadow:inset 0 0 0 1px rgba(47,49,53,.18)"></span>{{ c.name }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ pv.hasSpecs }}" hint-placeholder-val="{{ false }}">
+      <dl style="margin:0;display:flex;flex-direction:column;border-top:1px solid var(--c-line)">
+        <sc-for list="{{ pv.specs }}" as="sp" hint-placeholder-count="2">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--c-line);font-size:15px"><dt style="color:var(--c-muted)">{{ sp.k }}</dt><dd style="margin:0;font-weight:700">{{ sp.v }}</dd></div>
+        </sc-for>
+      </dl>
+    </sc-if>
+    <div style="display:flex;gap:12px;padding:16px;border-radius:12px;background:var(--c-surface)">
+      <i class="ph-duotone ph-info" style="font-size:22px;flex:none;color:#2F3135"></i>
+      <p style="margin:0;font-size:14px;line-height:1.55;color:var(--c-muted);text-wrap:pretty">Dodajte u upit sve što Vam treba, upišite količine i pošaljite jednim klikom. Ponudu šaljemo sa cenom za Vašu količinu i rokom isporuke.</p>
+    </div>
+    <sc-if value="{{ pv.inList }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ panelToList }}" style="align-self:flex-start;display:flex;align-items:center;gap:8px;height:40px;margin-top:-8px;padding:0;border:0;background:transparent;font:inherit;font-size:15px;font-weight:800;color:#2F3135;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px">Pregledajte upit · {{ listCount }}<i class="ph-bold ph-arrow-right" style="font-size:14px"></i></button>
+    </sc-if>
+  </div>
+  <div style="flex:none;display:flex;align-items:center;gap:{{ P.footGap }};padding:{{ P.footPad }};border-top:1px solid var(--c-line);background:#FFFFFF">
+    <button onClick="{{ pv.toggle }}" aria-pressed="{{ pv.pressed }}" style="flex:1;min-width:0;height:56px;padding:0 6px 0 24px;border:0;border-radius:999px;background:{{ pv.addBg }};color:{{ pv.addColor }};display:flex;align-items:center;justify-content:space-between;gap:14px;font:inherit;font-weight:800;font-size:16px;white-space:nowrap;cursor:pointer;transition:background-color .25s ease,color .25s ease,transform .25s cubic-bezier(.2,.7,.2,1)" style-active="transform:scale(.98)">{{ pv.addLabel }}<span style="width:44px;height:44px;flex:none;border-radius:50%;background:{{ pv.addDot }};display:flex;align-items:center;justify-content:center;transition:background-color .25s ease"><i class="ph-bold {{ pv.addIcon }}" style="font-size:18px;color:{{ pv.addIconColor }}"></i></span></button>
+    <a href="tel:+381615686300" aria-label="Pozovite komercijalistu, 061 568 6300" style="flex:none;width:{{ P.callW }};height:56px;padding:{{ P.callPad }};background:{{ P.callBg }};border-radius:999px;border:1.5px solid #C9CAC6;color:#2F3135;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:15px;text-decoration:none;white-space:nowrap;transition:border-color .2s" style-hover="border-color:#2F3135;color:#2F3135"><i class="ph-bold ph-phone" style="font-size:{{ P.callIcon }}"></i><span style="display:{{ P.callTxt }}">061 568 6300</span></a>
+  </div>
+</aside>
+
+<div role="region" aria-label="Upit za ponudu" aria-hidden="{{ B.hidden }}" style="position:fixed;z-index:85;left:0;right:0;bottom:{{ B.bottom }};margin:0 auto;width:calc(100% - 24px);max-width:520px;display:flex;align-items:center;gap:12px;padding:{{ B.pad }};border-radius:999px;background:#2F3135;color:#FFFFFF;box-shadow:0 20px 44px -16px rgba(20,21,23,.55);opacity:{{ B.op }};visibility:{{ B.vis }};transform:{{ B.tf }};transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .25s ease,bottom .3s ease,visibility 0s linear {{ B.visDelay }}">
+  <i class="ph-bold ph-list-checks" style="display:{{ B.iconDisp }};font-size:20px;color:#FFC000;flex:none"></i>
+  <span style="display:{{ B.badgeDisp }};width:44px;height:44px;flex:none;border-radius:50%;background:#3E4045;align-items:center;justify-content:center;position:relative"><i class="ph-bold ph-list-checks" style="font-size:20px;color:#FFC000"></i><span style="position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:#FFC000;color:#2F3135;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #2F3135">{{ listN }}</span></span>
+  <span style="flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25">
+    <span style="display:{{ B.titleDisp }};font-size:15px;font-weight:800;white-space:nowrap">{{ B.title }}</span>
+    <span style="display:{{ B.countDisp }};font-size:{{ B.countSize }};font-weight:{{ B.countWeight }};color:{{ B.countColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ listCount }}</span>
+    <span style="display:{{ B.subDisp }};font-size:13px;color:#D5D6D8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ listPreview }}</span>
+  </span>
+  <button onClick="{{ openList }}" style="flex:none;height:48px;padding:{{ B.btnPad }};border:0;border-radius:999px;background:#FFC000;color:#2F3135;display:flex;align-items:center;gap:12px;font:inherit;font-size:15px;font-weight:800;white-space:nowrap;cursor:pointer;transition:background .2s" style-hover="background:#FFCA2B">{{ B.cta }}<span style="width:36px;height:36px;border-radius:50%;background:#2F3135;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-up-right" style="font-size:15px;color:#FFC000"></i></span></button>
+</div>
+
+<div onClick="{{ closeList }}" aria-hidden="true" style="position:fixed;inset:0;z-index:92;background:rgba(32,33,36,0.48);opacity:{{ D.fade }};visibility:{{ D.vis }};transition:opacity .3s ease,visibility 0s linear {{ D.visDelay }}"></div>
+<aside role="dialog" aria-modal="true" aria-label="Upit za ponudu" aria-hidden="{{ D.hidden }}" style="position:fixed;z-index:93;top:{{ P.top }};right:0;bottom:0;left:{{ P.left }};width:{{ D.width }};background:#FFFFFF;border-radius:{{ P.radius }};display:flex;flex-direction:column;box-shadow:-24px 0 60px -20px rgba(32,33,36,0.35);transform:{{ D.tf }};visibility:{{ D.vis }};transition:transform .38s cubic-bezier(.2,.7,.2,1),visibility 0s linear {{ D.visDelay }};will-change:transform">
+  <div style="flex:none;display:flex;align-items:center;gap:12px;height:68px;padding:0 16px 0 24px;border-bottom:1px solid var(--c-line)">
+    <h2 style="flex:1;min-width:0;margin:0;font-size:20px;font-weight:800;letter-spacing:-0.015em">Upit za ponudu</h2>
+    <button onClick="{{ closeList }}" aria-label="Zatvori" style="width:40px;height:40px;border:0;border-radius:50%;background:#2F3135;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph-bold ph-x" style="font-size:16px"></i></button>
+  </div>
+  <div style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 24px 24px;display:flex;flex-direction:column">
+    <sc-if value="{{ listEmpty }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:32px 0">
+        <i class="ph-duotone ph-list-checks" style="font-size:40px;color:#4A4D52"></i>
+        <p style="margin:0;font-size:17px;font-weight:800">Upit je prazan</p>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:var(--c-muted);text-wrap:pretty">Na proizvodima u katalogu kliknite „Dodaj u upit“, pa ovde upišite količine.</p>
+      </div>
+    </sc-if>
+    <sc-for list="{{ listRows }}" as="r" hint-placeholder-count="0">
+      <div style="display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:start;padding:16px 0;border-bottom:1px solid var(--c-line)">
+        <span style="position:relative;width:56px;height:56px;border:1px solid var(--c-line);border-radius:10px;background:#FFFFFF;overflow:hidden">
+          <sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ false }}">{{ r.img }}</sc-if>
+          <sc-if value="{{ r.noImg }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--c-surface)"><i class="ph-duotone {{ r.icon }}" style="font-size:24px;color:#9A9DA1"></i></span></sc-if>
+        </span>
+        <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+          <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="display:{{ r.brandDisp }};font-size:11px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-muted)">{{ r.brand }}</span>
+            <span style="font-size:15px;font-weight:800;line-height:1.3">{{ r.name }}</span>
+          </span>
+          <input type="text" value="{{ r.qty }}" onChange="{{ r.setQty }}" placeholder="Količina, npr. 50 kom" aria-label="Količina za {{ r.label }}" style="width:100%;height:42px;padding:0 12px;border:1.5px solid #C9CAC6;border-radius:10px;background:#FFFFFF;font:inherit;font-size:16px;color:#2F3135;outline:none;transition:border-color .2s ease" style-focus="border-color:#2F3135">
+        </div>
+        <button onClick="{{ r.remove }}" aria-label="Ukloni {{ r.label }} iz upita" style="width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:#5C5F64;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .2s ease,color .2s ease" style-hover="background:#F5F5F3;color:#B42318"><i class="ph-bold ph-trash" style="font-size:18px"></i></button>
+      </div>
+    </sc-for>
+    <sc-if value="{{ hasList }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ clearList }}" style="align-self:flex-start;height:40px;margin-top:8px;padding:0;border:0;background:transparent;font:inherit;font-size:14px;font-weight:700;color:var(--c-muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer">Isprazni upit</button>
+    </sc-if>
+  </div>
+  <div style="flex:none;display:flex;flex-direction:column;gap:10px;padding:14px 24px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--c-line);background:#FFFFFF">
+    <span style="font-size:13px;line-height:1.5;color:var(--c-muted)">Količinu i veličine možete upisati i u poruci na sledećem koraku.</span>
+    <button onClick="{{ sendList }}" disabled="{{ listEmpty }}" style="width:100%;height:56px;padding:0 6px 0 24px;border:0;border-radius:999px;background:#FFC000;color:#2F3135;display:flex;align-items:center;justify-content:space-between;gap:14px;font:inherit;font-weight:800;font-size:16px;white-space:nowrap;cursor:pointer;opacity:{{ D.btnOp }};transition:background .2s" style-hover="background:#FFCA2B">Nastavite na slanje<span style="width:44px;height:44px;flex:none;border-radius:50%;background:#2F3135;display:flex;align-items:center;justify-content:center"><i class="ph-bold ph-arrow-up-right" style="font-size:18px;color:#FFC000"></i></span></button>
+  </div>
+</aside>
+
+<sc-if value="{{ showCookie }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-label="Kolačići" style="position:fixed;z-index:80;left:0;right:0;bottom:{{ cookieBottom }};margin:0 auto;width:calc(100% - 24px);max-width:620px;box-sizing:border-box;background:rgba(47,49,53,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#FFFFFF;border-radius:22px;box-shadow:0 20px 50px -20px rgba(20,21,23,0.45);padding:14px 14px 14px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+    <p style="flex:1 1 260px;margin:0;font-size:15px;font-weight:400;line-height:1.5;color:rgba(255,255,255,0.82);text-wrap:pretty"><span style="display:{{ ckGenDisp }}">Koristimo kolačiće za analitiku i prikaz mape. Sajt radi i bez njih. <a href="#" style="color:#FFFFFF;font-weight:400;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,0.4)">Saznajte više</a></span><span style="display:{{ ckAskDisp }}">Za prikaz mape potreban je Vaš pristanak na kolačiće. Želite li da ih prihvatite?</span></p>
+    <div style="display:flex;align-items:center;gap:6px;flex:none;margin-left:auto">
+      <button onClick="{{ rejectCookie }}" style="height:44px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,0.82);font:inherit;font-weight:500;font-size:15px;cursor:pointer;transition:background .2s,color .2s" style-hover="background:rgba(255,255,255,0.08);color:#FFFFFF">Odbijam</button>
+      <button onClick="{{ acceptCookie }}" style="height:44px;padding:0 22px;border:0;border-radius:999px;background:#FFC000;color:#2F3135;font:inherit;font-weight:500;font-size:15px;cursor:pointer;transition:background .2s" style-hover="background:#FFCA2B">Prihvatam</button>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const DB = () => (typeof window !== 'undefined' ? window.DND_OPREMA : null);
+const SHORTN = { 'Bezbednost i zdravlje na radu': 'Zaštita na radu', 'Zaštita životne sredine': 'Ekologija', 'Procena rizika od katastrofa i plan zaštite': 'Vanredne situacije', 'Zaštita lica, imovine i poslovanja': 'Obezbeđenje', 'Upravljanje hemikalijama i biocidima': 'Hemikalije i biocidi', 'Obuka za pružanje prve pomoći': 'Prva pomoć', 'HACCP sistem bezbednosti hrane': 'HACCP' };
+const SERVICES = ['Bezbednost i zdravlje na radu', 'Zaštita životne sredine', 'Procena rizika od katastrofa i plan zaštite', 'Zaštita lica, imovine i poslovanja', 'Upravljanje hemikalijama i biocidima', 'Obuka za pružanje prve pomoći', 'HACCP sistem bezbednosti hrane'];
+
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1440, menu: null, nav: false, acc: null, cookie: 'pending', cookieAsk: null, ready: !!DB(), sel: null, open: false, img: 0, act: null, actSub: null, list: [], listOpen: false };
+
+  componentDidMount() {
+    this.onR = () => { this.setState({ w: window.innerWidth }); this.spy(); };
+    this.onDoc = e => { if (this.state.menu && !e.target.closest('[data-menu]')) this.setState({ menu: null }); };
+    this.onKey = e => {
+      if (e.key === 'Escape') { if (this.state.listOpen) this.setState({ listOpen: false }); else if (this.state.open) this.closeP(); this.setState({ menu: null, nav: false }); }
+      else if (this.state.open && !this.state.listOpen && e.target.tagName !== 'INPUT' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) this.step(e.key === 'ArrowRight' ? 1 : -1);
+    };
+    this.onScroll = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = 0; this.spy(); }); };
+    this.onMapLink = ev => { const a = ev.target.closest && ev.target.closest('a[href*="maps.app.goo.gl"]'); if (!a || this.state.cookie === 'accepted') return; ev.preventDefault(); this.setState({ cookieAsk: a.href }); };
+    window.addEventListener('resize', this.onR);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    document.addEventListener('click', this.onDoc);
+    document.addEventListener('keydown', this.onKey);
+    document.addEventListener('click', this.onMapLink, true);
+    let c = null; try { c = localStorage.getItem('dnd-cookie'); } catch (e) {}
+    this.setState({ cookie: c });
+    this.loadList();
+    this.onStore = e => { if (e.key === 'dnd-katalog-upit') this.loadList(); };
+    window.addEventListener('storage', this.onStore);
+    this.onShow = e => { if (e.persisted) this.loadList(); };
+    window.addEventListener('pageshow', this.onShow);
+    if (DB()) this.init();
+    else this._poll = setInterval(() => { if (DB()) { clearInterval(this._poll); this.setState({ ready: true }); this.init(); } }, 40);
+  }
+  componentWillUnmount() {
+    clearInterval(this._poll); cancelAnimationFrame(this._raf);
+    window.removeEventListener('resize', this.onR);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('storage', this.onStore);
+    window.removeEventListener('pageshow', this.onShow);
+    document.removeEventListener('click', this.onDoc);
+    document.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('click', this.onMapLink, true);
+    Object.assign(document.body.style, { position: '', top: '', left: '', right: '', width: '', overflow: '' });
+  }
+  componentDidUpdate() {
+    const s = this.state, ps = this._prev || {};
+    const lock = !!(s.open || s.listOpen);
+    this._prev = { lock, sel: s.sel, act: s.act };
+    if (!!ps.lock !== lock) {
+      const b = document.body;
+      if (s.w >= 768) {
+        const de = document.documentElement;
+        if (lock) { this._lockY = window.scrollY; de.style.overflow = 'hidden'; }
+        else {
+          de.style.overflow = '';
+          if (Math.abs(window.scrollY - (this._lockY || 0)) > 2) window.scrollTo({ top: this._lockY || 0, behavior: 'instant' });
+        }
+      } else {
+        const de = document.documentElement;
+        if (lock) {
+          this._lockY = window.scrollY;
+          Object.assign(b.style, { position: 'fixed', top: -this._lockY + 'px', left: '0', right: '0', width: '100%', overflow: 'hidden' });
+        } else {
+          Object.assign(b.style, { position: '', top: '', left: '', right: '', width: '', overflow: '' });
+          const prev = de.style.scrollBehavior; de.style.scrollBehavior = 'auto';
+          window.scrollTo({ top: this._lockY || 0, behavior: 'instant' });
+          de.style.scrollBehavior = prev;
+        }
+      }
+    }
+    if (ps.sel !== s.sel && this._pbody) this._pbody.scrollTop = 0;
+    if (ps.act !== s.act && this._chips && s.act) {
+      const el = this._chips.querySelector('[data-chip="' + s.act + '"]');
+      if (el) this._chips.scrollTo({ left: Math.max(0, el.offsetLeft - 20), behavior: 'smooth' });
+    }
+  }
+
+  init() {
+    const db = DB(), q = new URLSearchParams(location.search);
+    const pid = q.get('proizvod'), kat = q.get('kat'), pod = q.get('pod');
+    let target = location.hash ? decodeURIComponent(location.hash.slice(1)) : '';
+    if (kat) { target = pod ? kat + '--' + pod : kat; this.url(pid, target); }
+    if (pid && db.products.some(p => p.id === pid)) this.setState({ sel: pid, open: true });
+    if (target) {
+      try { history.scrollRestoration = 'manual'; } catch (e) {}
+      let n = 0; const go = () => { this.jump(target, 'instant'); if (++n < 4) setTimeout(go, n * 200); };
+      requestAnimationFrame(go);
+    }
+    requestAnimationFrame(() => this.spy());
+  }
+  url(pid, hash) {
+    try { history.replaceState(null, '', location.pathname + (pid ? '?proizvod=' + pid : '') + (hash ? '#' + hash : '')); } catch (e) {}
+  }
+  offset() { return this.state.w < 1024 ? 76 + 61 + 12 : 100; }
+  jump(id, behavior) {
+    const el = document.getElementById(id) || document.getElementById(String(id).split('--')[0]);
+    if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - this.offset() + 2, behavior: behavior || 'smooth' });
+  }
+  go(id) {
+    return ev => {
+      if (ev) ev.preventDefault();
+      this.setState({ menu: null, nav: false });
+      if (this.state.w >= 768) { const de = document.documentElement, prev = de.style.scrollBehavior; de.style.scrollBehavior = 'auto'; this.jump(id, 'instant'); de.style.scrollBehavior = prev; }
+      else this.jump(id);
+      this.url(this.state.open ? this.state.sel : null, id);
+    };
+  }
+  spy() {
+    const line = this.offset() + 24;
+    let cat = null, sub = null;
+    const chs = document.querySelectorAll('[data-chapter]');
+    for (const el of chs) { if (el.getBoundingClientRect().top <= line) cat = el.getAttribute('data-chapter'); else break; }
+    if (!cat && chs[0]) cat = chs[0].getAttribute('data-chapter');
+    const subs = document.querySelectorAll('[data-sub][data-cat="' + cat + '"]');
+    for (const el of subs) { if (el.getBoundingClientRect().top <= line) sub = el.getAttribute('data-sub'); else break; }
+    if (cat !== this.state.act || sub !== this.state.actSub) this.setState({ act: cat, actSub: sub });
+  }
+  loadList() {
+    let l = []; try { l = JSON.parse(localStorage.getItem('dnd-katalog-upit') || '[]'); } catch (e) {}
+    const db = DB();
+    if (!Array.isArray(l)) l = [];
+    this.setState({ list: l.filter(x => x && x.id && (!db || db.products.some(p => p.id === x.id))) });
+  }
+  saveList(list) { this.setState({ list }); try { localStorage.setItem('dnd-katalog-upit', JSON.stringify(list)); } catch (e) {} }
+  toggleItem(id) {
+    const l = this.state.list;
+    this.saveList(l.some(x => x.id === id) ? l.filter(x => x.id !== id) : [...l, { id, qty: '' }]);
+  }
+  sendList() {
+    const db = DB(), l = this.state.list; if (!db || !l.length) return;
+    const lines = l.map(x => { const p = db.products.find(q => q.id === x.id); return p ? '• ' + db.label(p) + (x.qty.trim() ? ', ' + x.qty.trim() : ', količina: ') : null; }).filter(Boolean);
+    try {
+      sessionStorage.setItem('dnd-upit-poruka', 'Zanima nas ponuda za:\n' + lines.join('\n'));
+      sessionStorage.setItem('dnd-return', JSON.stringify({ href: location.href.split('#')[0], y: window.scrollY, label: 'katalog', page: 'Oprema' }));
+    } catch (e) {}
+    location.href = 'kontakt.html?tema=oprema&upit=1#upit';
+  }
+  openP(id) { this.setState({ sel: id, open: true, img: 0, menu: null }); this.url(id, location.hash.slice(1)); }
+  closeP() { this.setState({ open: false }); this.url(null, location.hash.slice(1)); }
+  step(d) {
+    const list = DB().ordered, i = list.findIndex(p => p.id === this.state.sel);
+    const n = list[(i + d + list.length) % list.length];
+    this.setState({ sel: n.id, img: 0 }); this.url(n.id, location.hash.slice(1));
+  }
+
+  shell(s) {
+    const db = DB(), isMobile = s.w < 900, phone = s.w < 768;
+    const nav = db ? db.navGroups() : [];
+    const equipment = nav.map(g => ({ ...g, go: this.go(g.href.split('#')[1]), links: g.links.map(l => ({ ...l, go: this.go(l.href.split('#')[1]) })) }));
+    const openForm = (usluga, ev) => {
+      const sec = ev && ev.currentTarget && ev.currentTarget.closest ? ev.currentTarget.closest('[data-screen-label]') : null;
+      let label = sec ? sec.getAttribute('data-screen-label').replace(/^\d+\s*/, '') : '';
+      label = !label || label === 'Heder' ? 'stranicu' : 'sekciju ' + label;
+      try { sessionStorage.setItem('dnd-return', JSON.stringify({ href: location.href.split('#')[0], y: window.scrollY, label, page: 'Oprema' })); } catch (e) {}
+      location.href = 'kontakt.html' + (usluga === 'Oprema' ? '?tema=oprema' : '') + '#upit';
+    };
+    const mobileGroups = [
+      { key: 'usluge', label: 'Usluge', href: 'usluge.html', items: SERVICES.map((x, i) => ({ name: phone ? (SHORTN[x] || x) : x, href: 'usluge.html#usluga-' + (i + 1), go: () => this.setState({ nav: false }) })) },
+      { key: 'oprema', label: 'Oprema', href: 'oprema.html', items: equipment.map(x => ({ name: x.name, href: x.href, go: x.go })) }
+    ].map(g => { const o = s.acc === g.key; return { ...g, rows: o ? '1fr' : '0fr', op: o ? 1 : 0, vis: o ? 'visible' : 'hidden', visDelay: o ? '0s' : '.3s', rot: o ? '180deg' : '0deg', open: o, toggle: () => this.setState(st => ({ acc: st.acc === g.key ? null : g.key })) }; });
+    return {
+      isMobile, isDesktop: !isMobile, equipment, mobileGroups,
+      crumbDisplay: phone ? 'none' : 'flex', callLabel: phone ? 'Pozovite' : '061 568 6300',
+      footNavDisp: phone ? 'none' : 'flex', footCookieMob: phone ? 'block' : 'none', footRowCols: phone ? 'minmax(0,1fr)' : 'minmax(0,1fr) auto minmax(0,1fr)', footRowGap: phone ? '10px' : '24px', footJsL: phone ? 'center' : 'start', footJsR: phone ? 'center' : 'end',
+      ctaNumDisp: phone ? 'none' : 'block', ctaRoleDisp: phone ? 'none' : 'inline', ctaInfoDesk: phone ? 'none' : 'flex', ctaInfoMob: phone ? 'flex' : 'none',
+      opremaOpen: s.menu === 'oprema', opremaBg: s.menu === 'oprema' ? 'var(--c-surface)' : 'transparent', opremaRot: s.menu === 'oprema' ? '180deg' : '0deg',
+      toggleOprema: () => this.setState(st => ({ menu: st.menu === 'oprema' ? null : 'oprema' })),
+      navOpen: s.nav && isMobile, navFade: s.nav ? 1 : 0, navVis: s.nav ? 'visible' : 'hidden', navVisDelay: s.nav ? '0s' : '.3s', navTf: s.nav ? 'translateY(0)' : 'translateY(-12px)', navIcon: s.nav ? 'ph-x' : 'ph-list',
+      toggleNav: () => this.setState(st => ({ nav: !st.nav })), closeNav: () => this.setState({ nav: false }),
+      showCookie: s.cookie === null || !!s.cookieAsk, ckGenDisp: s.cookieAsk ? 'none' : 'inline', ckAskDisp: s.cookieAsk ? 'inline' : 'none', cookieBottom: '24px',
+      acceptCookie: () => { const h = s.cookieAsk; try { localStorage.setItem('dnd-cookie', 'accepted'); } catch (e) {} this.setState({ cookie: 'accepted', cookieAsk: null }); if (h && h !== 'map') window.open(h, '_blank', 'noopener'); },
+      rejectCookie: () => { const set = () => { try { localStorage.setItem('dnd-cookie', 'rejected'); } catch (e) {} this.setState({ cookie: 'rejected' }); }; if (s.cookieAsk) { this.setState({ cookieAsk: null }); if (s.cookie === null) set(); } else set(); },
+      reopenCookie: () => this.setState({ cookie: null }),
+      openForm: ev => openForm(undefined, ev), openFormOprema: ev => openForm('Oprema', ev)
+    };
+  }
+
+  renderVals() {
+    const s = this.state, db = DB(), sh = this.shell(s);
+    const phone = s.w < 768, wide = s.w >= 1024;
+    const L = {
+      cols: wide ? '232px minmax(0,1fr)' : 'minmax(0,1fr)',
+      heroCols: s.w >= 900 ? 'minmax(0,1fr) 260px' : 'minmax(0,1fr)',
+      factCols: s.w >= 900 ? 'minmax(0,1fr)' : (phone ? 'minmax(0,1fr)' : 'repeat(3,minmax(0,1fr))'),
+      factBorder: s.w >= 900 || phone ? '1px solid #E4E4E1' : '0',
+      grid: phone ? 'repeat(2,minmax(0,1fr))' : 'repeat(auto-fill,minmax(190px,1fr))',
+      gap: phone ? '32px 14px' : '44px 24px', nameSize: phone ? '15px' : '17px', clamp: phone ? 2 : 3
+    };
+    const P = {
+      fade: s.open ? 1 : 0, dim: s.w >= 768 ? 'transparent' : 'rgba(32,33,36,0.48)', vis: s.open ? 'visible' : 'hidden', visDelay: s.open ? '0s' : '.38s', hidden: s.open ? 'false' : 'true',
+      top: '0', left: phone ? '0' : 'auto', width: phone ? '100%' : 'min(600px,100vw)', radius: '0',
+      tf: s.open ? 'translate3d(0,0,0)' : (phone ? 'translate3d(0,100%,0)' : 'translate3d(100%,0,0)'),
+      ratio: phone ? '1 / 1' : '4 / 3', callPad: phone ? '0' : '0 20px', callTxt: phone ? 'none' : 'inline', callW: phone ? '56px' : 'auto', callBg: phone ? '#F5F5F3' : 'transparent', callIcon: phone ? '22px' : '18px', footGap: phone ? '12px' : '10px', footPad: phone ? '14px 16px calc(14px + env(safe-area-inset-bottom))' : '14px 24px calc(14px + env(safe-area-inset-bottom))'
+    };
+    const base = { ...sh, L, P, upitDisp: 'none', bannerCols: s.w >= 768 ? 'minmax(0,1.25fr) minmax(0,1fr)' : 'minmax(0,1fr)', smt: this.offset() + 'px', showToc: wide, cntDisp: phone ? 'none' : 'inline', showChips: !wide && !phone, showDd: phone,
+      chipRef: el => { this._chips = el; }, pRef: el => { this._pbody = el; },
+      closeP: () => this.closeP(), prevP: () => this.step(-1), nextP: () => this.step(1) };
+    const emptyPv = { label: '', crumb: '', brand: '', brandDisp: 'none', name: '', desc: '', hasImg: false, noImg: true, icon: 'ph-package', hasThumbs: false, thumbs: [], hasColors: false, colors: [], hasSpecs: false, specs: [], inquiry: 'kontakt.html?tema=oprema#upit', inList: false, pressed: 'false', toggle: () => {}, addLabel: 'Dodaj u upit', addBg: '#FFC000', addColor: '#2F3135', addDot: '#2F3135', addIcon: 'ph-plus', addIconColor: '#FFC000' };
+    if (!db) return { ...base, chapters: [], toc: [], chips: [], dd: { open: false, expanded: 'false', rot: '0deg', border: '#C9CAC6', label: 'Svi proizvodi', filtered: false, toggle: () => {}, close: () => {}, clear: () => {}, all: {}, cats: [] }, pv: emptyPv, listRows: [], hasList: false, listEmpty: true, listCount: '', listPreview: '',
+      B: { op: 0, vis: 'hidden', visDelay: '0s', hidden: 'true', tf: 'translate3d(0,24px,0)', bottom: '24px', subDisp: 'none', cta: '', pad: '8px 8px 8px 20px', iconDisp: 'block', badgeDisp: 'none', titleDisp: 'none', countDisp: 'block', countSize: '15px', countWeight: '800', countColor: '#FFFFFF', btnPad: '0 6px 0 20px', title: '' },
+      D: { fade: 0, vis: 'hidden', visDelay: '0s', hidden: 'true', width: '100%', tf: 'translate3d(100%,0,0)', btnOp: 0.5 } };
+
+    const h = window.React && window.React.createElement;
+    const imgEl = (src, alt, pad, lazy) => src && h ? h('img', { key: src, src, alt, loading: lazy ? 'lazy' : 'eager', decoding: 'async', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', padding: pad, display: 'block' } }) : null;
+    const inList = id => s.list.some(x => x.id === id);
+    const card = p => {
+      const dots = p.colors.slice(0, 5), on = inList(p.id);
+      return { pressed: on ? 'true' : 'false', addLabel: on ? 'U upitu' : 'Dodaj u upit', addIcon: on ? 'ph-check' : 'ph-plus', addDot: on ? '#FFC000' : '#F5F5F3', addBorder: on ? '#2F3135' : '#C9CAC6',
+        addAria: on ? 'Ukloni ' + db.label(p) + ' iz upita' : 'Dodaj ' + db.label(p) + ' u upit',
+        toggle: ev => { if (ev) { ev.preventDefault(); ev.stopPropagation(); } this.toggleItem(p.id); }, id: p.id, label: db.label(p), brand: p.brand, brandDisp: p.brand ? 'block' : 'none', name: p.name, desc: p.desc, icon: p.icon,
+        href: db.productHref(p), open: ev => { if (ev) ev.preventDefault(); this.openP(p.id); },
+        hasImg: !!p.images[0], noImg: !p.images[0], img: imgEl(p.images[0] ? p.images[0].replace('assets/oprema/', 'assets/oprema/thumb/') : p.images[0], db.label(p), '6%', true),
+        hasColors: p.colors.length > 0, dots, more: '+' + (p.colors.length - dots.length), moreDisp: p.colors.length > dots.length ? 'inline' : 'none',
+        colorsLabel: 'Boje: ' + p.colors.map(c => c.name).join(', '), inquiry: db.inquiryHref(p) };
+    };
+    let chapters = db.categories.map((c, i) => {
+      const subs = c.subs.map(sb => {
+        const id = c.key + '--' + sb.key, all = db.ordered.filter(p => p.cat === c.key && p.sub === sb.key);
+        const sel = (s.grp || {})[id] || '', pick = g => () => this.setState(st => ({ grp: { ...(st.grp || {}), [id]: (st.grp || {})[id] === g ? '' : g } }));
+        const items = (sel ? all.filter(p => p.group === sel) : all).map(card);
+        const chip = (name, val) => { const on = sel === val; return { name, pick: val ? pick(val) : pick(''), pressed: on ? 'true' : 'false', bg: on ? '#2F3135' : '#FFFFFF', fg: on ? '#FFFFFF' : '#2F3135', bd: on ? '#2F3135' : '#C9CAC6' }; };
+        return { id, name: sb.name, total: all.length, items, hasBanner: !!sb.img, img: sb.img, groups: sb.groups.length ? [chip('Sve', ''), ...sb.groups.map(g => chip(g, g))] : [],
+          noItems: items.length === 0, emptyMsg: sel ? 'Proizvodi iz grupe „' + sel + '“ uskoro u katalogu.' : 'Proizvodi uskoro u katalogu.' };
+      }).filter(x => x.total || x.hasBanner).map(x => ({ ...x, countLabel: db.plural(x.total) }));
+      const n = subs.reduce((a, x) => a + x.total, 0);
+      return { id: c.key, hid: c.key + '-naslov', num: String(i + 1).padStart(2, '0'), name: c.name, short: c.short, text: c.text, countLabel: c.pdf ? 'PDF katalog' : db.plural(n), subs, empty: subs.length === 0 && !c.pdf, hasPdf: !!c.pdf, pdf: c.pdf || '' };
+    });
+    const toc = chapters.map(ch => {
+      const on = ch.id === s.act;
+      return { num: ch.num, name: ch.name, href: '#' + ch.id, go: this.go(ch.id), current: on ? 'true' : 'false', bg: on ? '#F5F5F3' : 'transparent', weight: on ? 800 : 600, showSubs: on && ch.subs.length > 0,
+        subs: ch.subs.map(sb => { const a = sb.id === s.actSub; return { name: sb.name, href: '#' + sb.id, go: this.go(sb.id), bar: a ? '#FFC000' : 'transparent', weight: a ? 800 : 500, color: a ? '#2F3135' : '#5C5F64' }; }) };
+    });
+    const fil = phone ? (s.fil || '') : '';
+    const pickF = v => () => this.setState({ fil: v, dd: false }, () => setTimeout(() => {
+      const de = document.documentElement, prev = de.style.scrollBehavior; de.style.scrollBehavior = 'auto';
+      const el = document.querySelector('[data-chapter]'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - this.offset() - 8, behavior: 'instant' });
+      de.style.scrollBehavior = prev;
+    }, 0));
+    const opt = (on, extra) => ({ sel: on ? 'true' : 'false', bar: on ? '#FFC000' : 'transparent', bg: on ? '#FFF5D1' : 'transparent', chk: on ? 1 : 0, ...extra });
+    let ddLabel = 'Svi proizvodi';
+    const ddCats = chapters.map(ch => {
+      if (fil === ch.id) ddLabel = ch.name;
+      return opt(fil === ch.id, { num: ch.num, name: ch.name, icon: (db.categories.find(c => c.key === ch.id) || {}).icon || 'ph-package', tile: fil === ch.id ? '#FFC000' : '#F5F5F3', pick: pickF(ch.id),
+        subs: ch.subs.map(sb => { const on = fil === sb.id; if (on) ddLabel = sb.name; return opt(on, { name: sb.name, bd: on ? '#2F3135' : '#E4E4E1', pbg: on ? '#2F3135' : '#FFFFFF', fg: on ? '#FFFFFF' : '#2F3135', pick: pickF(sb.id) }); }) });
+    });
+    const dd = { open: !!s.dd, expanded: s.dd ? 'true' : 'false', rot: s.dd ? '180deg' : '0deg', border: s.dd || fil ? '#2F3135' : '#C9CAC6', label: ddLabel, filtered: !!fil,
+      toggle: () => this.setState(st => ({ dd: !st.dd })), close: () => this.setState({ dd: false }), clear: pickF(''),
+      all: opt(!fil, { pick: pickF('') }), cats: ddCats };
+    if (fil) {
+      const cat = fil.split('--')[0], isSub = fil.includes('--');
+      chapters = chapters.filter(ch => ch.id === cat).map(ch => isSub ? { ...ch, subs: ch.subs.filter(sb => sb.id === fil) } : ch);
+    }
+    const chips = chapters.map(ch => { const on = ch.id === s.act; return { id: ch.id, num: ch.num, label: ch.short, href: '#' + ch.id, go: this.go(ch.id), current: on ? 'true' : 'false', bg: on ? '#2F3135' : '#F5F5F3', color: on ? '#FFFFFF' : '#2F3135' }; });
+
+    let pv = emptyPv;
+    const p = s.sel && db.products.find(x => x.id === s.sel);
+    if (p) {
+      const im = p.images[Math.min(s.img, p.images.length - 1)];
+      pv = { label: db.label(p), crumb: p.catName + '  /  ' + p.subName, brand: p.brand, brandDisp: p.brand ? 'block' : 'none', name: p.name, desc: p.desc, icon: p.icon,
+        hasImg: !!im, noImg: !im, img: imgEl(im, db.label(p), '5%', false),
+        hasThumbs: p.images.length > 1, thumbs: p.images.map((src, i) => ({ src: h ? h('img', { src, alt: '', style: { width: '100%', height: '100%', objectFit: 'contain', padding: 4, display: 'block' } }) : null, n: i + 1, on: i === s.img ? 'true' : 'false', border: i === s.img ? '#2F3135' : '#E4E4E1', pick: () => this.setState({ img: i }) })),
+        hasColors: p.colors.length > 0, colors: p.colors.map(c => { const key = '-' + c.name.split(' ')[0].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace('đ', 'dj'); const ix = p.images.findIndex(src => src.toLowerCase().includes(key)); const act = ix >= 0 && ix === Math.min(s.img, p.images.length - 1); return { ...c, pick: () => { if (ix >= 0) this.setState({ img: ix }); }, pressed: act ? 'true' : 'false', bd: act ? '1.5px solid #2F3135' : '1px solid var(--c-line)', cur: ix >= 0 ? 'pointer' : 'default' }; }), hasSpecs: p.specs.length > 0, specs: p.specs.map(([k, v]) => ({ k, v })), inquiry: db.inquiryHref(p) };
+      const on = inList(p.id);
+      Object.assign(pv, { inList: on, pressed: on ? 'true' : 'false', toggle: () => this.toggleItem(p.id), addLabel: on ? 'Dodato u upit' : 'Dodaj u upit',
+        addBg: on ? '#2F3135' : '#FFC000', addColor: on ? '#FFFFFF' : '#2F3135', addDot: on ? '#FFC000' : '#2F3135', addIcon: on ? 'ph-check' : 'ph-plus', addIconColor: on ? '#2F3135' : '#FFC000' });
+    }
+    const rows = s.list.map(x => ({ x, p: db.products.find(q => q.id === x.id) })).filter(r => r.p);
+    const n = rows.length, has = n > 0, showBar = has && !s.open && !s.listOpen;
+    const listRows = rows.map(({ x, p }) => ({ label: db.label(p), brand: p.brand, brandDisp: p.brand ? 'block' : 'none', name: p.name, icon: p.icon, qty: x.qty || '',
+      hasImg: !!p.images[0], noImg: !p.images[0], img: imgEl(p.images[0], '', '4px', true),
+      setQty: ev => { const v = ev.target.value; this.saveList(this.state.list.map(y => y.id === x.id ? { ...y, qty: v } : y)); },
+      remove: () => this.saveList(this.state.list.filter(y => y.id !== x.id)) }));
+    const B = { op: showBar ? 1 : 0, vis: showBar ? 'visible' : 'hidden', visDelay: showBar ? '0s' : '.35s', hidden: showBar ? 'false' : 'true', tf: showBar ? 'translate3d(0,0,0)' : 'translate3d(0,24px,0)',
+      bottom: sh.showCookie ? (phone ? '180px' : '120px') : (phone ? '12px' : '24px'), subDisp: phone ? 'none' : 'block', cta: phone ? 'Pošalji' : 'Pregledaj i pošalji',
+      pad: phone ? '6px 6px 6px 6px' : '8px 8px 8px 20px', iconDisp: phone ? 'none' : 'block', badgeDisp: phone ? 'flex' : 'none', titleDisp: phone ? 'block' : 'none', countDisp: 'block',
+      countSize: phone ? '13px' : '15px', countWeight: phone ? '500' : '800', countColor: phone ? '#D5D6D8' : '#FFFFFF', btnPad: phone ? '0 6px 0 18px' : '0 6px 0 20px', title: 'Upit' };
+    const D = { fade: s.listOpen ? 1 : 0, vis: s.listOpen ? 'visible' : 'hidden', visDelay: s.listOpen ? '0s' : '.38s', hidden: s.listOpen ? 'false' : 'true', width: phone ? '100%' : 'min(520px,100vw)',
+      tf: s.listOpen ? 'translate3d(0,0,0)' : (phone ? 'translate3d(0,100%,0)' : 'translate3d(100%,0,0)'), btnOp: has ? 1 : 0.5 };
+    return { ...base, chapters, toc, chips, dd, pv, B, D, listRows, hasList: has, listEmpty: !has,
+      listCount: phone ? (n === 1 ? '1 proizvod' : n + ' proizvoda') : (n === 1 ? '1 proizvod u upitu' : n + ' proizvoda u upitu'), listN: n,
+      listPreview: rows.map(r => r.p.name).join(', '),
+      openList: () => this.setState({ listOpen: true, menu: null, nav: false }), closeList: () => this.setState({ listOpen: false }),
+      panelToList: () => { this.closeP(); this.setState({ listOpen: true }); },
+      clearList: () => this.saveList([]), sendList: () => this.sendList() };
+  }
+}
+</script>
+</body>
+</html>
